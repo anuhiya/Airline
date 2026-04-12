@@ -52,9 +52,9 @@ airline_app/
 ├── requirements.txt
 └── templates/
     ├── base.html         # Shared layout, CSS
-    ├── index.html        # Search form (Part a)
-    ├── flights.html      # Flight results list (Part b)
-    └── flight_detail.html # Seat availability detail (Part c)
+    ├── index.html        # Search form 
+    ├── flights.html      # Flight results list 
+    └── flight_detail.html # Seat availability detail 
 ```
 
 ## Notes
