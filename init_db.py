@@ -1,5 +1,5 @@
 """
-init_db.py — CS 6083 Spring 2026, Question 2 (Airline Flights & Booking)
+init_db.py:
 Populates airline.db with the exact schema and data from the homework SQL file.
 PostgreSQL INTERVAL durations are stored as integer minutes for SQLite compatibility.
 """
