@@ -1,6 +1,6 @@
 ## Fly Smart — Airline Flight Web App
 
-A simple Flask web application for browsing airline flights and seat availability, built for the Airline Flights and Booking database homework.
+A simple Flask web application for browsing airline flights and seat availability, built for the Airline Flights booking. 
 
 ## Features
 
