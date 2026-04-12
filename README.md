@@ -61,4 +61,4 @@ airline_app/
 
 - Uses SQLite for simplicity, swap `DB_PATH` in `app.py` for PostgreSQL/MySQL as needed.
 - All times are in GMT as specified.
-- The app shows all flights regardless of whether they are fully booked (Part b requirement).
+- The app shows all flights regardless of whether they are fully booked.
