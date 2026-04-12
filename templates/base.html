@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}Airline Flights{% endblock %}</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --navy:   #0d3d3d;
+            --blue:   #0f5f5f;
+            --sky:    #2563eb;
+            --accent: #38bdf8;
+            --light:  #e0f2fe;
+            --white:  #ffffff;
+            --gray:   #64748b;
+            --muted:  #f1f5f9;
+            --border: #cbd5e1;
+            --green:  #16a34a;
+            --red:    #dc2626;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--muted);
+            color: #1e293b;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(135deg, #0d3d3d 0%, #14b8a6 100%);
+            color: var(--white);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            height: 64px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.4);
+        }
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+        header .logo span { color: #a7f3d0; }
+        header nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: .9rem;
+            margin-left: 1.5rem;
+            opacity: .8;
+            transition: opacity .2s;
+        }
+        header nav a:hover { opacity: 1; }
+        main { max-width: 1100px; margin: 2.5rem auto; padding: 0 1.5rem; }
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+            overflow: visible;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #0d3d3d 0%, #0f5f5f 100%);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            border-radius: 16px 16px 0 0;
+        }
+        .card-header h1 { font-size: 1.4rem; font-weight: 700; }
+        .card-header p { font-size: .9rem; opacity: .8; margin-top: .25rem; }
+        .card-body { padding: 2rem; overflow: visible; }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            width: 100%;
+            overflow: visible;
+        }
+        .form-group { display: flex; flex-direction: column; gap: .4rem; }
+        .form-group label { font-size: .8rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .5px; }
+        .form-group input,
+        .form-group select {
+            padding: .65rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: .95rem;
+            color: #1e293b;
+            background: var(--white);
+            transition: border-color .2s, box-shadow .2s;
+            outline: none;
+            width: 100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--sky);
+            box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 2rem;
+            background: var(--sky);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+            text-decoration: none;
+        }
+        .btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
+        .btn-sm { padding: .45rem 1.1rem; font-size: .85rem; border-radius: 7px; }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--sky);
+            color: var(--sky);
+        }
+        .btn-outline:hover { background: var(--light); }
+        .form-actions { margin-top: 1.75rem; display: flex; gap: 1rem; align-items: center; }
+        .flight-table { width: 100%; border-collapse: collapse; }
+        .flight-table th {
+            background: var(--muted);
+            font-size: .75rem;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            padding: .75rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+        }
+        .flight-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: .9rem;
+            vertical-align: middle;
+        }
+        .flight-table tr:last-child td { border-bottom: none; }
+        .flight-table tbody tr { transition: background .15s; cursor: pointer; }
+        .flight-table tbody tr:hover { background: #f0f9ff; }
+        .badge {
+            display: inline-block;
+            padding: .2rem .65rem;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 600;
+        }
+        .badge-sky  { background: #e0f2fe; color: #0369a1; }
+        .badge-navy { background: #dbeafe; color: #1d4ed8; }
+        .route { display: flex; align-items: center; gap: .75rem; }
+        .route-code { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+        .route-arrow { color: var(--accent); font-size: 1rem; }
+        .detail-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .detail-route { display: flex; align-items: center; gap: 1.5rem; }
+        .detail-airport { text-align: center; }
+        .detail-airport .code { font-size: 2.5rem; font-weight: 900; color: var(--white); letter-spacing: -1px; }
+        .detail-airport .city { font-size: .8rem; opacity: .8; }
+        .detail-arrow { display: flex; flex-direction: column; align-items: center; gap: .2rem; color: var(--accent); }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .stat-card { background: var(--muted); border-radius: 12px; padding: 1.25rem; text-align: center; }
+        .stat-card .value { font-size: 2rem; font-weight: 800; color: var(--navy); line-height: 1; }
+        .stat-card .value.green { color: var(--green); }
+        .stat-card .value.red   { color: var(--red); }
+        .stat-card .label { font-size: .75rem; color: var(--gray); margin-top: .4rem; text-transform: uppercase; letter-spacing: .5px; }
+        .seat-bar-wrap { margin: 1.5rem 0; }
+        .seat-bar-label { display: flex; justify-content: space-between; font-size: .8rem; color: var(--gray); margin-bottom: .4rem; }
+        .seat-bar { height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; }
+        .seat-bar-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); border-radius: 6px; }
+        .seat-bar-fill.warn { background: linear-gradient(90deg, #f59e0b, #d97706); }
+        .seat-bar-fill.danger { background: linear-gradient(90deg, #ef4444, #dc2626); }
+        .empty { text-align: center; padding: 3rem; color: var(--gray); }
+        .empty .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .empty p { font-size: .95rem; }
+        @media (max-width: 640px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .detail-route { gap: 1rem; }
+            .detail-airport .code { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">✈ Fly<span>Smart</span></div>
+</header>
+<main>
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>
