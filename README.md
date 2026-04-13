@@ -32,7 +32,7 @@ python init_db.py
 python app.py
 ```
 
-Then open your browser to **http://localhost:5000**
+
 
 ## Sample Queries to Try
 
